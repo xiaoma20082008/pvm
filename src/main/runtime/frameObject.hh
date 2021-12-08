@@ -12,8 +12,8 @@ public:
   PyDict *Locals();
 
 private:
-  FrameObject *_caller;
-  int _pc{0};
+  //  FrameObject *_caller{nullptr};
+  //  int _pc{0};
 };
 } // namespace pvm
 #endif // PVM_FRAME_OBJECT_HH
