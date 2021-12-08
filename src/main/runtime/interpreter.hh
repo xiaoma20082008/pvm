@@ -4,6 +4,7 @@
 
 #ifndef PVM_INTERPRETER_HH
 #define PVM_INTERPRETER_HH
+#include "utils/common.hh"
 
 namespace pvm {
 class CodeObject;
@@ -14,10 +15,8 @@ public:
   Interpreter();
   ~Interpreter();
 
-  Interpreter(const Interpreter &) = delete;
-  Interpreter &operator=(const Interpreter &) = delete;
-  Interpreter(Interpreter &&) = delete;
-  Interpreter &operator=(Interpreter &&) = delete;
+  __no_copy__(Interpreter);
+  __no_move__(Interpreter);
 
 public:
   void run(CodeObject *codes);

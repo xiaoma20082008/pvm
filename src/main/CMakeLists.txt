@@ -19,6 +19,9 @@ elseif (WIN32)
 endif ()
 
 target_include_directories(pvm PRIVATE .)
+target_link_directories(pvm PRIVATE .)
 
 add_executable(python main.cc)
 target_link_libraries(python pvm)
+target_include_directories(python PRIVATE .)
+target_link_directories(python PRIVATE .)
