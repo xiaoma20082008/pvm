@@ -3,3 +3,9 @@
 //
 
 #include "runtime/frameObject.hh"
+
+namespace pvm {
+
+PyDict *FrameObject::Locals() { return nullptr; }
+
+} // namespace pvm

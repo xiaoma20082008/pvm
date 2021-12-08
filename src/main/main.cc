@@ -46,16 +46,16 @@ int main(int argc, char **argv) {
     return 0;
   }
 
-  pvm::Universe::genesis();
+  pvm::Universe::Genesis();
 
   pvm::BufferedInputStream stream(argv[1]);
   pvm::BinaryFileParser parser(&stream);
 
-  pvm::Universe::code = parser.parse();
-  pvm::Universe::heap->gc();
+  pvm::Universe::code = parser.Parse();
+  pvm::Universe::heap->GC();
 
-  pvm::Interpreter::get_instance()->run(pvm::Universe::code);
+  pvm::Interpreter::GetInstance()->Run(pvm::Universe::code);
 
-  pvm::Universe::destroy();
+  pvm::Universe::Destroy();
   return 0;
 }

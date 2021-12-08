@@ -16,7 +16,7 @@ namespace pvm {
 
 BinaryFileParser::BinaryFileParser(BufferedInputStream *stream) { _stream = stream; }
 
-CodeObject *BinaryFileParser::parse() {
+CodeObject *BinaryFileParser::Parse() {
   /*
    * MagicNumber:
    * Timestamp:

@@ -27,13 +27,13 @@ template <typename K, typename V> MapEntry<K, V>::MapEntry() {
 }
 
 template <typename K, typename V> void *MapEntry<K, V>::operator new[](size_t size) {
-  return Universe::heap->allocate(size);
+  return Universe::heap->Allocate(size);
 }
 
 // endregion MapEntry
 
 template <typename K, typename V> void *Map<K, V>::operator new[](size_t size) {
-  return Universe::heap->allocate(size);
+  return Universe::heap->Allocate(size);
 }
 
 template <typename K, typename V> V Map<K, V>::get(K key) {}

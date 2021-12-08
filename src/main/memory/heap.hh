@@ -13,11 +13,11 @@ public:
   ~Space();
 
 public:
-  bool can_alloc(size_t size);
-  bool has_obj(char *obj);
-  void *alloc(size_t size);
-  size_t size();
-  void clear();
+  bool HasRemaining(size_t size);
+  bool Contains(char *obj);
+  void *Alloc(size_t size);
+  size_t Size();
+  void Clear();
 
 private:
   size_t _size{0};
@@ -29,23 +29,23 @@ private:
 
 class Heap {
 public:
-  static Heap *get_instance();
+  static Heap *GetInstance();
   static size_t MAX_CAP;
 
   ~Heap();
 
 public:
-  void *allocate(size_t size);
+  void *Allocate(size_t size);
 
-  void *allocate_meta(size_t size);
+  void *AllocateMeta(size_t size);
 
-  void gc();
+  void GC();
 
 private:
   explicit Heap(size_t size);
 
-  void minor_gc();
-  void major_gc();
+  void MinorGC();
+  void MajorGC();
 
 private:
   Space *_eden{};

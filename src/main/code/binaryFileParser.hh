@@ -17,7 +17,7 @@ class BinaryFileParser {
 public:
   explicit BinaryFileParser(BufferedInputStream *stream);
 
-  CodeObject *parse();
+  CodeObject *Parse();
 
 private:
   CodeObject *read_code();

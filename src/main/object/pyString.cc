@@ -53,18 +53,18 @@ size_t StringKlass::size() { return sizeof(PyString); }
 PyString::PyString() : PyString("", 0) {}
 PyString::PyString(const char *value) {
   _length = static_cast<int>(strlen(value));
-  _value = static_cast<char *>(Universe::heap->allocate(_length));
+  _value = static_cast<char *>(Universe::heap->Allocate(_length));
   strcpy(_value, value);
   set_klass(StringKlass::get_instance());
 }
 PyString::PyString(int length) {
   _length = length;
-  _value = static_cast<char *>(Universe::heap->allocate(_length));
+  _value = static_cast<char *>(Universe::heap->Allocate(_length));
   set_klass(StringKlass::get_instance());
 }
 PyString::PyString(const char *value, int length) {
   _length = length;
-  _value = static_cast<char *>(Universe::heap->allocate(_length));
+  _value = static_cast<char *>(Universe::heap->Allocate(_length));
   // allow \0
   for (int i = 0; i < _length; ++i) {
     _value[i] = value[i];

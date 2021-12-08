@@ -69,7 +69,7 @@ PyObject *Klass::iter(PyObject *x) { return nullptr; }
 PyObject *Klass::allocate_instance(PyObject *callable, ArrayList<PyObject *> *args) { return nullptr; }
 PyObject *Klass::get_klass_attr(PyObject *x, PyObject *y) { return nullptr; }
 
-void *Klass::operator new(size_t size) { return Universe::heap->allocate(size); }
+void *Klass::operator new(size_t size) { return Universe::heap->Allocate(size); }
 
 void Klass::oops_do(OopClosure *closure) {}
 void Klass::oops_do(OopClosure *closure, PyObject *obj) {}

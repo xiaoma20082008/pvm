@@ -16,12 +16,12 @@ PyObject *Universe::pyNone = nullptr;
 Heap *Universe::heap = nullptr;
 CodeObject *Universe::code = nullptr;
 
-void Universe::genesis() {
-  heap = Heap::get_instance();
+void Universe::Genesis() {
+  heap = Heap::GetInstance();
   pyTrue = new PyString("True");
   pyFalse = new PyString("False");
   pyNone = new PyString("None");
 }
 
-void Universe::destroy() {}
+void Universe::Destroy() {}
 } // namespace pvm

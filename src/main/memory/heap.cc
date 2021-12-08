@@ -12,7 +12,7 @@ namespace pvm {
 Space::Space(size_t size) {
   _size = size;
   _base = static_cast<char *>(std::malloc(_size));
-  clear();
+  Clear();
 }
 
 Space::~Space() {
@@ -26,20 +26,20 @@ Space::~Space() {
   _capacity = 0;
 }
 
-bool Space::can_alloc(size_t size) { return _capacity > size; }
+bool Space::HasRemaining(size_t size) { return _capacity > size; }
 
-bool Space::has_obj(char *obj) { return false; }
+bool Space::Contains(char *obj) { return false; }
 
-void *Space::alloc(size_t size) {
+void *Space::Alloc(size_t size) {
   char *start = _top;
   _top += size;
   _capacity -= size;
   return start;
 }
 
-size_t Space::size() { return _size; }
+size_t Space::Size() { return _size; }
 
-void Space::clear() {
+void Space::Clear() {
   memset(_base, 0, _size);
   _end = _base + _size;
   _top = _base;
@@ -83,50 +83,50 @@ Heap::~Heap() {
   std::cout << "~Heap\n";
 }
 
-Heap *Heap::get_instance() {
+Heap *Heap::GetInstance() {
   static Heap heap{MAX_CAP};
   return &heap;
 }
 
-void *Heap::allocate(size_t size) {
-  if (!_eden->can_alloc(size)) {
-    minor_gc();
+void *Heap::Allocate(size_t size) {
+  if (!_eden->HasRemaining(size)) {
+    MinorGC();
   }
-  if (!_eden->can_alloc(size)) {
-    major_gc();
+  if (!_eden->HasRemaining(size)) {
+    MajorGC();
   }
-  if (_eden->size() >= size) {
-    return _eden->alloc(size);
+  if (_eden->Size() >= size) {
+    return _eden->Alloc(size);
   }
-  return _heap->alloc(size);
+  return _heap->Alloc(size);
 }
 
-void *Heap::allocate_meta(size_t size) {
-  if (!_metaspace->can_alloc(size)) {
-    major_gc();
+void *Heap::AllocateMeta(size_t size) {
+  if (!_metaspace->HasRemaining(size)) {
+    MajorGC();
   }
-  return _metaspace->alloc(size);
+  return _metaspace->Alloc(size);
 }
 
-void Heap::gc() {
-  minor_gc();
-  major_gc();
+void Heap::GC() {
+  MinorGC();
+  MajorGC();
 }
 
-void Heap::minor_gc() {
+void Heap::MinorGC() {
   std::cout << "minor_gc starting:\r\n";
   std::cout << "  before:\r\n";
   std::cout << "  after:\r\n";
   std::cout << "minor_gc finished\r\n";
-  _eden->clear();
+  _eden->Clear();
 }
 
-void Heap::major_gc() {
+void Heap::MajorGC() {
   std::cout << "major_gc starting:\r\n";
   std::cout << "  before:\r\n";
   std::cout << "  after:\r\n";
   std::cout << "major_gc finished\r\n";
-  minor_gc();
+  MinorGC();
 }
 
 } // namespace pvm

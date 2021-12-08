@@ -11,9 +11,9 @@ class PyObject;
 
 class Universe {
 public:
-  static void genesis();
+  static void Genesis();
 
-  static void destroy();
+  static void Destroy();
 
 public:
   static PyObject *pyTrue;

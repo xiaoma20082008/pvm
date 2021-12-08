@@ -15,11 +15,11 @@ namespace pvm {
 Interpreter::Interpreter() = default;
 Interpreter::~Interpreter() = default;
 
-Interpreter *Interpreter::get_instance() {
+Interpreter *Interpreter::GetInstance() {
   static Interpreter interpreter{};
   return &interpreter;
 }
 
-void Interpreter::run(CodeObject *codes) {}
+void Interpreter::Run(CodeObject *codes) {}
 
 } // namespace pvm

@@ -9,7 +9,7 @@ class PyDict;
 class Block {};
 class FrameObject {
 public:
-  PyDict *locals();
+  PyDict *Locals();
 
 private:
   FrameObject *_caller;

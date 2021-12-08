@@ -38,6 +38,6 @@ PyObject *PyObject::setattr(PyObject *x, PyObject *y) { return klass()->setattr(
 PyObject *PyObject::next() { return klass()->next(this); }
 PyObject *PyObject::iter() { return klass()->iter(this); }
 
-void *PyObject::operator new(size_t size) { return Universe::heap->allocate(size); }
+void *PyObject::operator new(size_t size) { return Universe::heap->Allocate(size); }
 
 } // namespace pvm

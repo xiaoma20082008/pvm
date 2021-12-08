@@ -29,7 +29,7 @@ public:
   void *operator new[](size_t size);
 
 private:
-  MapEntry<K, V> *entries{nullptr};
+  MapEntry<K, V> *_entries{nullptr};
   int _size{0};
   int _length{0};
 };

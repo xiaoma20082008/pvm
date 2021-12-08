@@ -11,7 +11,7 @@ class CodeObject;
 
 class Interpreter {
 public:
-  static Interpreter *get_instance();
+  static Interpreter *GetInstance();
   Interpreter();
   ~Interpreter();
 
@@ -19,7 +19,7 @@ public:
   __no_move__(Interpreter);
 
 public:
-  void run(CodeObject *codes);
+  void Run(CodeObject *codes);
 };
 } // namespace pvm
 #endif // PVM_INTERPRETER_HH
