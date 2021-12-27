@@ -38,14 +38,14 @@ CodeObject *BinaryFileParser::Parse() {
   printf("object type = %c\n", object_type);
   CodeObject *codeObject = nullptr;
   if ('c' == object_type) {
-    codeObject = read_code();
+    codeObject = ParseCode();
     printf("parse file  = done\n");
   } else {
   }
   return codeObject;
 }
 
-CodeObject *BinaryFileParser::read_code() {
+CodeObject *BinaryFileParser::ParseCode() {
   int argc = _stream->read_int();
   int n_locals = _stream->read_int();
   int stack_size = _stream->read_int();
@@ -81,8 +81,7 @@ PyString *BinaryFileParser::read_string() {
   for (int i = 0; i < len; ++i) {
     val[i] = _stream->read();
   }
-  auto s = new PyString(val, len);
-  return s;
+  return new PyString(val, len);
 }
 
 ArrayList<PyObject *> *BinaryFileParser::read_names() { return nullptr; }

@@ -13,7 +13,7 @@ template <typename T> class ArrayList;
 class CodeKlass : public Klass {
 public:
   CodeKlass();
-  static CodeKlass *get_instance();
+  static CodeKlass *GetInstance();
   size_t size() override;
   void oops_do(OopClosure *closure, PyObject *obj) override;
 };

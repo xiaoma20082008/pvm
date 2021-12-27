@@ -5,7 +5,7 @@
 #include "code/codeObject.hh"
 namespace pvm {
 CodeKlass::CodeKlass() = default;
-CodeKlass *CodeKlass::get_instance() {
+CodeKlass *CodeKlass::GetInstance() {
   static CodeKlass klass{};
   return &klass;
 }
@@ -19,6 +19,6 @@ CodeObject::CodeObject(PyString *filename, PyString *name, int argc, int pos_arg
     : _filename(filename), _name(name), _argc(argc), _pos_argc(pos_argc), _kw_argc(kw_argc), _n_locals(n_locals),
       _stack_size(stack_size), _flags(flags), _opcodes(opcodes), _consts(consts), _names(names), _var_names(var_names),
       _cell_vars(cell_vars), _free_vars(free_vars) {
-  set_klass(CodeKlass::get_instance());
+  set_klass(CodeKlass::GetInstance());
 }
 } // namespace pvm

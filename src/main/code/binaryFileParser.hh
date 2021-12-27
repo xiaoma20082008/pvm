@@ -20,7 +20,7 @@ public:
   CodeObject *Parse();
 
 private:
-  CodeObject *read_code();
+  CodeObject *ParseCode();
 
   PyString *read_filename();
   PyString *read_name();
