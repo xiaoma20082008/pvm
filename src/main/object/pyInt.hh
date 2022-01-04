@@ -25,7 +25,7 @@ public:
 
   PyObject *allocate_instance(PyObject *callable, ArrayList<PyObject *> *args) override;
   size_t size() override;
-  void oops_do(OopClosure *closure, PyObject *obj) override;
+  void Accept(OopClosure *closure, PyObject *obj) override;
 };
 
 class PyInt : public PyObject {

@@ -40,9 +40,13 @@ public:
   void set_klass(Klass *klass);
   void set_dict(PyDict *dict);
 
+  int Size();
+
   [[nodiscard]] long mark_word() const;
   [[nodiscard]] Klass *klass() const;
   [[nodiscard]] PyDict *dict() const;
+
+  void Accept(OopClosure *f);
 
   void *operator new(size_t size);
 

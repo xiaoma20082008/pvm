@@ -1,8 +1,8 @@
 set(SRCS
         code/codeObject.cc code/codeObject.hh code/binaryFileParser.cc code/binaryFileParser.hh
-        memory/heap.cc memory/heap.hh
-        object/klass.cc object/klass.hh object/pyDict.cc object/pyDict.hh object/pyFloat.cc object/pyFloat.hh object/pyFunc.cc object/pyFunc.hh object/pyInt.cc object/pyInt.hh object/pyList.cc object/pyList.hh object/pyObject.cc object/pyObject.hh object/pyString.cc object/pyString.hh object/pyType.cc object/pyType.hh
-        runtime/frameObject.cc runtime/frameObject.hh runtime/universe.cc runtime/universe.hh runtime/interpreter.cc runtime/interpreter.hh
+        memory/gc.cc memory/gc.hh memory/heap.cc memory/heap.hh
+        object/klass.cc object/klass.hh object/pyDict.cc object/pyDict.hh object/pyFloat.cc object/pyFloat.hh object/pyFunc.cc object/pyFunc.hh object/pyInt.cc object/pyInt.hh object/pyList.cc object/pyList.hh object/pyModule.cc object/pyModule.hh object/pyObject.cc object/pyObject.hh object/pyString.cc object/pyString.hh object/pyType.cc object/pyType.hh
+        runtime/frameObject.cc runtime/frameObject.hh runtime/universe.cc runtime/universe.hh runtime/stringTable.cc runtime/stringTable.hh runtime/interpreter.cc runtime/interpreter.hh
         utils/arrayList.cc utils/arrayList.hh utils/bufferedInputStream.cc utils/bufferedInputStream.hh utils/map.cc utils/map.hh utils/map.cc utils/map.hh utils/slice.cc utils/slice.hh)
 add_library(pvm SHARED ${SRCS})
 

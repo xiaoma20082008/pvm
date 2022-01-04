@@ -12,6 +12,18 @@ public:
 
   size_t size() override;
 };
-class PyList : public PyObject {};
+class PyList : public PyObject {
+public:
+  PyList();
+  PyList(ObjList ol);
+
+  PyObject *Pop();
+  PyObject *Top();
+  void Push(PyObject *o);
+  int Size();
+
+private:
+  ArrayList<PyObject *> *_list{};
+};
 } // namespace pvm
 #endif // PVM_PYLIST_HH

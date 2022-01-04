@@ -13,9 +13,9 @@ BufferedInputStream::BufferedInputStream(const char *filename) {
   std::fread(_buffer, BUFFER_LEN * sizeof(char), 1, _file);
 }
 
-BufferedInputStream::~BufferedInputStream() { close(); }
+BufferedInputStream::~BufferedInputStream() { Close(); }
 
-char BufferedInputStream::read() {
+char BufferedInputStream::Read() {
   if (_index < BUFFER_LEN) {
     return _buffer[_index++];
   } else {
@@ -25,15 +25,23 @@ char BufferedInputStream::read() {
   }
 }
 
-int BufferedInputStream::read_int() {
-  int b1 = read() & 0xff;
-  int b2 = read() & 0xff;
-  int b3 = read() & 0xff;
-  int b4 = read() & 0xff;
+int BufferedInputStream::ReadInt() {
+  int b1 = Read() & 0xff;
+  int b2 = Read() & 0xff;
+  int b3 = Read() & 0xff;
+  int b4 = Read() & 0xff;
   return b4 << 24 | b3 << 16 | b2 << 8 | b1;
 }
 
-char BufferedInputStream::peek() {
+double BufferedInputStream::ReadFloat() {
+  char t[8];
+  for (int i = 0; i < 8; i++) {
+    t[i] = Read();
+  }
+  return *(double *)t;
+}
+
+char BufferedInputStream::Peek() {
   if (_index < BUFFER_LEN) {
     return _buffer[_index];
   } else {
@@ -43,9 +51,9 @@ char BufferedInputStream::peek() {
   }
 }
 
-void BufferedInputStream::undo() { _index--; }
+void BufferedInputStream::Undo() { _index--; }
 
-void BufferedInputStream::close() {
+void BufferedInputStream::Close() {
   if (_file != nullptr) {
     std::fclose(_file);
     _file = nullptr;

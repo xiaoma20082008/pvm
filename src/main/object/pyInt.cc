@@ -73,7 +73,7 @@ PyObject *IntKlass::div(PyObject *x, PyObject *y) {
 
 PyObject *IntKlass::allocate_instance(PyObject *callable, ArrayList<PyObject *> *args) { return nullptr; }
 size_t IntKlass::size() { return sizeof(PyInt); }
-void IntKlass::oops_do(OopClosure *closure, PyObject *obj) {}
+void IntKlass::Accept(OopClosure *closure, PyObject *obj) {}
 
 PyInt::PyInt(int value) : _value(value) { set_klass(IntKlass::get_instance()); }
 int PyInt::value() const { return _value; }

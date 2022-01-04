@@ -6,6 +6,7 @@
 
 #include "memory/heap.hh"
 #include "runtime/universe.hh"
+#include <new>
 
 namespace pvm {
 template <typename T> ArrayList<T>::ArrayList(int capacity) {
@@ -46,7 +47,16 @@ template <typename T> T *ArrayList<T>::value() { return _array; }
 template <typename T> T ArrayList<T>::pop() { return _array[_size - 1]; }
 template <typename T> void ArrayList<T>::remove_at(int index) {}
 template <typename T> void ArrayList<T>::oops_do(OopClosure *closure) {}
-template <typename T> void *ArrayList<T>::operator new(size_t size) { Universe::heap->Allocate(size); }
+template <typename T> void *ArrayList<T>::operator new(size_t size) { return Universe::heap->Allocate(size); }
 
 template <typename T> void ArrayList<T>::expand() {}
+
+class PyObject;
+class PyString;
+class Block;
+
+template class ArrayList<PyObject *>;
+template class ArrayList<PyString *>;
+template class ArrayList<Block *>;
+
 } // namespace pvm

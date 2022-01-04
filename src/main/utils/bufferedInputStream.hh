@@ -16,15 +16,17 @@ public:
 
   ~BufferedInputStream();
 
-  char read();
+  char Read();
 
-  char peek();
+  char Peek();
 
-  int read_int();
+  int ReadInt();
 
-  void undo();
+  double ReadFloat();
 
-  void close();
+  void Undo();
+
+  void Close();
 
 private:
   std::FILE *_file{nullptr};

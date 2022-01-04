@@ -7,6 +7,7 @@
 #include <cstddef>
 
 #include "utils/arrayList.hh"
+#include "utils/common.hh"
 
 namespace pvm {
 
@@ -74,8 +75,8 @@ public:
   virtual size_t size();
 
   // gc interfaces
-  virtual void oops_do(OopClosure *closure, PyObject *obj); // this is for objects of this type.
-  virtual void oops_do(OopClosure *closure);                // for klass itself only.
+  virtual void Accept(OopClosure *closure, PyObject *obj); // this is for objects of this type.
+  virtual void Accept(OopClosure *closure);                // for klass itself only.
 
 private:
   PyObject *find_and_call(PyObject *x, ObjList args, PyObject *func_name);

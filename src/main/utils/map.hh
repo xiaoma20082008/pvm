@@ -4,6 +4,7 @@
 
 #ifndef PVM_MAP_HH
 #define PVM_MAP_HH
+#include "utils/common.hh"
 #include <cstddef>
 
 namespace pvm {
@@ -16,8 +17,8 @@ template <typename K, typename V> class MapEntry {
   void *operator new[](size_t size);
 
 public:
-  K _key;
-  V _val;
+  K _key{};
+  V _val{};
 };
 
 template <typename K, typename V> class Map {

@@ -4,8 +4,10 @@
 
 #include "object/pyObject.hh"
 
+#include "memory/gc.hh"
 #include "memory/heap.hh"
 #include "runtime/universe.hh"
+
 namespace pvm {
 long PyObject::mark_word() const { return _mark_word; }
 Klass *PyObject::klass() const { return _klass; }
@@ -13,6 +15,7 @@ PyDict *PyObject::dict() const { return _dict; }
 void PyObject::set_mark_word(long mark_word) { _mark_word = mark_word; }
 void PyObject::set_klass(Klass *klass) { _klass = klass; }
 void PyObject::set_dict(PyDict *dict) { _dict = dict; }
+int PyObject::Size() { return 0; }
 
 PyObject *PyObject::ge(PyObject *x) { return klass()->ge(this, x); }
 PyObject *PyObject::gt(PyObject *x) { return klass()->gt(this, x); }
@@ -38,6 +41,10 @@ PyObject *PyObject::setattr(PyObject *x, PyObject *y) { return klass()->setattr(
 PyObject *PyObject::next() { return klass()->next(this); }
 PyObject *PyObject::iter() { return klass()->iter(this); }
 
+void PyObject::Accept(OopClosure *f) {
+  f->Visit(_dict);
+  klass()->Accept(f, this);
+}
 void *PyObject::operator new(size_t size) { return Universe::heap->Allocate(size); }
 
 } // namespace pvm

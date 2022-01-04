@@ -18,7 +18,7 @@ public:
 
   PyObject *allocate_instance(PyObject *callable, ArrayList<PyObject *> *args) override;
   size_t size() override;
-  void oops_do(OopClosure *closure, PyObject *obj) override;
+  void Accept(OopClosure *closure, PyObject *obj) override;
 };
 
 class PyString : public PyObject {
@@ -30,12 +30,12 @@ public:
   explicit PyString(int length);
   PyString(const char *value, int length);
 
-  [[nodiscard]] int length() const;
+  [[nodiscard]] int Length() const;
 
-  [[nodiscard]] char *value() const;
+  [[nodiscard]] char *Value() const;
 
 private:
-  void set(int index, char ch);
+  void Set(int index, char ch);
 
 private:
   char *_value{};

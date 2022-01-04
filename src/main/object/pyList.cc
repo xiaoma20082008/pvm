@@ -12,4 +12,10 @@ ListKlass *ListKlass::get_instance() {
 
 size_t ListKlass::size() { return sizeof(PyList); }
 
+PyList::PyList() : _list(nullptr) {}
+PyList::PyList(ObjList ol) : _list(ol) {}
+PyObject *PyList::Pop() { return nil; }
+PyObject *PyList::Top() { return nil; }
+void PyList::Push(PyObject *o) {}
+int PyList::Size() { return _list == nullptr ? 0 : _list->size(); }
 } // namespace pvm

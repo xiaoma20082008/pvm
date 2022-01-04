@@ -71,8 +71,8 @@ PyObject *Klass::get_klass_attr(PyObject *x, PyObject *y) { return nullptr; }
 
 void *Klass::operator new(size_t size) { return Universe::heap->Allocate(size); }
 
-void Klass::oops_do(OopClosure *closure) {}
-void Klass::oops_do(OopClosure *closure, PyObject *obj) {}
+void Klass::Accept(OopClosure *closure) {}
+void Klass::Accept(OopClosure *closure, PyObject *obj) {}
 
 size_t Klass::size() { return 0; }
 

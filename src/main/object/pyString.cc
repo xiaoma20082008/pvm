@@ -19,10 +19,10 @@ StringKlass *StringKlass::get_instance() {
 PyObject *StringKlass::add(PyObject *x, PyObject *y) {
   auto lhs = (PyString *)x;
   auto rhs = (PyString *)y;
-  auto res = new PyString(lhs->length() + rhs->length());
-  memcpy(res->_value, lhs->_value, lhs->length());
-  memcpy(res->_value + lhs->length(), rhs->_value, rhs->length());
-  res->set(lhs->length() + rhs->length(), '\0');
+  auto res = new PyString(lhs->Length() + rhs->Length());
+  memcpy(res->_value, lhs->_value, lhs->Length());
+  memcpy(res->_value + lhs->Length(), rhs->_value, rhs->Length());
+  res->Set(lhs->Length() + rhs->Length(), '\0');
   return res;
 }
 PyObject *StringKlass::subscr(PyObject *x, PyObject *y) {
@@ -41,12 +41,12 @@ PyObject *StringKlass::contains(PyObject *x, PyObject *y) {
 }
 PyObject *StringKlass::len(PyObject *x) {
   auto lhs = (PyString *)x;
-  return new PyInt(lhs->length());
+  return new PyInt(lhs->Length());
 }
 
 PyObject *StringKlass::allocate_instance(PyObject *callable, ArrayList<PyObject *> *args) { return nullptr; }
 
-void StringKlass::oops_do(OopClosure *closure, PyObject *obj) {}
+void StringKlass::Accept(OopClosure *closure, PyObject *obj) {}
 
 size_t StringKlass::size() { return sizeof(PyString); }
 
@@ -71,7 +71,7 @@ PyString::PyString(const char *value, int length) {
   }
   set_klass(StringKlass::get_instance());
 }
-int PyString::length() const { return _length; }
-char *PyString::value() const { return _value; }
-void PyString::set(int index, char ch) { _value[index] = ch; }
+int PyString::Length() const { return _length; }
+char *PyString::Value() const { return _value; }
+void PyString::Set(int index, char ch) { _value[index] = ch; }
 } // namespace pvm

@@ -36,9 +36,13 @@ template <typename K, typename V> void *Map<K, V>::operator new[](size_t size) {
   return Universe::heap->Allocate(size);
 }
 
-template <typename K, typename V> V Map<K, V>::get(K key) {}
+template <typename K, typename V> V Map<K, V>::get(K key) { return nullptr; }
 
-template <typename K, typename V> V Map<K, V>::remove(K key) {}
+template <typename K, typename V> V Map<K, V>::remove(K key) { return nullptr; }
 
 template <typename K, typename V> bool Map<K, V>::has_key(K key) { return false; }
+
+class PyObject;
+template class MapEntry<PyObject *, PyObject *>;
+template class Map<PyObject *, PyObject *>;
 } // namespace pvm

@@ -7,7 +7,7 @@
 #include "code/codeObject.hh"
 #include "memory/heap.hh"
 #include "object/pyString.hh"
-
+#include "runtime/interpreter.hh"
 namespace pvm {
 
 PyObject *Universe::pyTrue = nullptr;
@@ -21,6 +21,7 @@ void Universe::Genesis() {
   pyTrue = new PyString("True");
   pyFalse = new PyString("False");
   pyNone = new PyString("None");
+  Interpreter::GetInstance()->Init();
 }
 
 void Universe::Destroy() {}

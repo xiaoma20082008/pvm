@@ -5,13 +5,18 @@
 #ifndef PVM_BINARY_FILE_PARSER_HH
 #define PVM_BINARY_FILE_PARSER_HH
 
-namespace pvm {
+#include "code/codeObject.hh"
+#include "object/pyDict.hh"
+#include "object/pyFloat.hh"
+#include "object/pyInt.hh"
+#include "object/pyList.hh"
+#include "object/pyObject.hh"
+#include "object/pyString.hh"
+#include "runtime/universe.hh"
+#include "utils/arrayList.hh"
+#include "utils/bufferedInputStream.hh"
 
-class BufferedInputStream;
-class CodeObject;
-class PyString;
-class PyObject;
-template <typename T> class ArrayList;
+namespace pvm {
 
 class BinaryFileParser {
 public:
@@ -20,22 +25,21 @@ public:
   CodeObject *Parse();
 
 private:
-  CodeObject *ParseCode();
-
-  PyString *read_filename();
-  PyString *read_name();
-  PyString *read_bytecode();
-  PyString *read_string();
-
-  ArrayList<PyObject *> *read_consts();
-  ArrayList<PyObject *> *read_names();
-  ArrayList<PyObject *> *read_var_names();
-  ArrayList<PyObject *> *read_cell_vars();
-  ArrayList<PyObject *> *read_free_vars();
-  ArrayList<PyObject *> *read_tuples();
+  CodeObject *ReadCode();
+  PyString *ReadFilename();
+  PyString *ReadName();
+  PyString *ReadBytecode();
+  PyString *ReadString();
+  ArrayList<PyObject *> *ReadConsts();
+  ArrayList<PyObject *> *ReadNames();
+  ArrayList<PyObject *> *ReadVarNames();
+  ArrayList<PyObject *> *ReadCellVars();
+  ArrayList<PyObject *> *ReadFreeVars();
+  ArrayList<PyObject *> *ReadTuples();
 
 private:
   BufferedInputStream *_stream{};
+  ArrayList<PyString *> _string_Table{};
 };
 } // namespace pvm
 #endif // PVM_BINARY_FILE_PARSER_HH
