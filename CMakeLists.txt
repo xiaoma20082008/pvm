@@ -20,5 +20,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
 enable_testing()
 
+add_subdirectory(external)
 add_subdirectory(src/main)
 add_subdirectory(src/test)
