@@ -6,8 +6,27 @@
 #define PVM_PYMODULE_HH
 #include "object/pyObject.hh"
 namespace pvm {
-class ModuleKlass : public Klass {};
+class PyDict;
 
-class PyModule : public PyObject {};
+class ModuleKlass : public Klass {
+public:
+  static ModuleKlass *GetInstance();
+  virtual size_t Size() override;
+  virtual void Accept(OopClosure *closure, PyObject *obj) override;
+};
+
+class PyModule : public PyReferenceObject {
+public:
+  PyModule();
+  PyModule(PyDict *dict);
+  ~PyModule();
+
+public:
+  void Put(PyObject *k, PyObject *v);
+  PyObject *Get(PyObject *k);
+
+private:
+  PyDict *_dict{};
+};
 } // namespace pvm
 #endif // PVM_PYMODULE_HH

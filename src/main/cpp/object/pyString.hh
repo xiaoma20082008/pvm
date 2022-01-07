@@ -9,19 +9,19 @@ namespace pvm {
 class StringKlass : public Klass {
 public:
   StringKlass();
-  static StringKlass *get_instance();
+  static StringKlass *GetInstance();
 
   PyObject *add(PyObject *x, PyObject *y) override;
   PyObject *subscr(PyObject *x, PyObject *y) override;
   PyObject *contains(PyObject *x, PyObject *y) override;
   PyObject *len(PyObject *x) override;
 
-  PyObject *allocate_instance(PyObject *callable, ArrayList<PyObject *> *args) override;
-  size_t size() override;
+  PyObject *allocate_instance(PyObject *callable, std::vector<PyObject *> args) override;
+  size_t Size() override;
   void Accept(OopClosure *closure, PyObject *obj) override;
 };
 
-class PyString : public PyObject {
+class PyString : public PyReferenceObject {
   friend class StringKlass;
 
 public:

@@ -5,17 +5,17 @@
 #include "object/pyList.hh"
 
 namespace pvm {
-ListKlass *ListKlass::get_instance() {
+ListKlass *ListKlass::GetInstance() {
   static ListKlass klass{};
   return &klass;
 }
 
-size_t ListKlass::size() { return sizeof(PyList); }
+size_t ListKlass::Size() { return sizeof(PyList); }
 
-PyList::PyList() : _list(nullptr) {}
-PyList::PyList(ObjList ol) : _list(ol) {}
+PyList::PyList() {}
+PyList::PyList(std::vector<PyObject *> args) : _list(args) {}
 PyObject *PyList::Pop() { return nil; }
 PyObject *PyList::Top() { return nil; }
 void PyList::Push(PyObject *o) {}
-int PyList::Size() { return _list == nullptr ? 0 : _list->size(); }
+int PyList::size() { return _list.size(); }
 } // namespace pvm

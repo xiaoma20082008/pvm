@@ -12,6 +12,7 @@
 #include "object/pyObject.hh"
 #include "object/pyString.hh"
 #include "runtime/frameObject.hh"
+#include "runtime/stringTable.hh"
 #include <iostream>
 namespace pvm {
 OopClosure::OopClosure(Space *from, Space *to, Space *metaspace) : _from(from), _to(to), _metaspace(metaspace) {}
@@ -24,16 +25,17 @@ void OopClosure::Visit(PyInt *obj) {}
 void OopClosure::Visit(PyList *obj) {}
 void OopClosure::Visit(PyString *obj) {}
 void OopClosure::Visit(PyObject *obj) {}
-void OopClosure::Visit(ArrayList<Block *> *obj) {}
-void OopClosure::Visit(ArrayList<PyObject *> *obj) {}
-void OopClosure::Visit(ArrayList<Klass *> *obj) {}
+void OopClosure::Visit(std::vector<Block *> obj) {}
+void OopClosure::Visit(std::vector<PyObject *> obj) {}
+void OopClosure::Visit(std::vector<Klass *> obj) {}
 void OopClosure::Visit(Map<PyObject *, PyObject *> *obj) {}
+void OopClosure::Visit(StringTable *obj) {}
 void OopClosure::CMS() {
   // 1. mark
   // 2. swap
 
   std::cout << "mark" << std::endl;
-  std::cout << "from:" << _from << "to  :" << _to << "meta:" << _metaspace << std::endl;
+  std::cout << "from:" << _from << "\r\nto  :" << _to << "\r\nmeta:" << _metaspace << std::endl;
   std::cout << "swap" << std::endl;
 }
 } // namespace pvm

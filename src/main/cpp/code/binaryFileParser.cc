@@ -11,6 +11,8 @@ namespace pvm {
 
 BinaryFileParser::BinaryFileParser(BufferedInputStream *stream) { _stream = stream; }
 
+void BinaryFileParser::Reset() { _stream->Reset(); }
+
 CodeObject *BinaryFileParser::Parse() {
   /*
    * MagicNumber:
@@ -46,11 +48,11 @@ CodeObject *BinaryFileParser::ReadCode() {
   int stack_size = _stream->ReadInt();
   int flags = _stream->ReadInt();
   PyString *bytecode = ReadBytecode();
-  ArrayList<PyObject *> *consts = ReadConsts();
-  ArrayList<PyObject *> *names = ReadNames();
-  ArrayList<PyObject *> *var_names = ReadVarNames();
-  ArrayList<PyObject *> *free_vars = ReadFreeVars();
-  ArrayList<PyObject *> *cell_vars = ReadCellVars();
+  std::vector<PyObject *> consts = ReadConsts();
+  std::vector<PyObject *> names = ReadNames();
+  std::vector<PyObject *> var_names = ReadVarNames();
+  std::vector<PyObject *> free_vars = ReadFreeVars();
+  std::vector<PyObject *> cell_vars = ReadCellVars();
 
   PyString *filename = ReadFilename();
   PyString *name = ReadName();
@@ -74,11 +76,11 @@ PyString *BinaryFileParser::ReadName() {
   }
   case 't': {
     ret = ReadString();
-    _string_Table.add(ret);
+    _string_Table.push_back(ret);
     break;
   }
   case 'R': {
-    ret = _string_Table.get(_stream->ReadInt());
+    ret = _string_Table.at(_stream->ReadInt());
     break;
   }
   }
@@ -97,79 +99,80 @@ PyString *BinaryFileParser::ReadString() {
   return new PyString(val, len);
 }
 
-ArrayList<PyObject *> *BinaryFileParser::ReadNames() {
+std::vector<PyObject *> BinaryFileParser::ReadNames() {
   if (_stream->Peek() == '(') {
     return ReadTuples();
   }
-  return nullptr;
+  return std::vector<PyObject *>{};
 }
-ArrayList<PyObject *> *BinaryFileParser::ReadConsts() {
+std::vector<PyObject *> BinaryFileParser::ReadConsts() {
   if (_stream->Peek() == '(') {
     return ReadTuples();
   }
-  return nullptr;
+  return std::vector<PyObject *>{};
 }
-ArrayList<PyObject *> *BinaryFileParser::ReadVarNames() {
+std::vector<PyObject *> BinaryFileParser::ReadVarNames() {
   if (_stream->Peek() == '(') {
     return ReadTuples();
   }
-  return nullptr;
+  return std::vector<PyObject *>{};
 }
-ArrayList<PyObject *> *BinaryFileParser::ReadCellVars() {
+std::vector<PyObject *> BinaryFileParser::ReadCellVars() {
   if (_stream->Peek() == '(') {
     return ReadTuples();
   }
-  return nullptr;
+  return std::vector<PyObject *>{};
 }
-ArrayList<PyObject *> *BinaryFileParser::ReadFreeVars() {
+std::vector<PyObject *> BinaryFileParser::ReadFreeVars() {
   if (_stream->Peek() == '(') {
     return ReadTuples();
   }
-  return nullptr;
+  return std::vector<PyObject *>{};
 }
-ArrayList<PyObject *> *BinaryFileParser::ReadTuples() {
+std::vector<PyObject *> BinaryFileParser::ReadTuples() {
   char obj_type = _stream->Read();
   assert(obj_type == '(');
   int length = _stream->ReadInt();
-  ArrayList<PyObject *> *list = new ArrayList<PyObject *>(length);
+  std::vector<PyObject *> list{};
   for (int i = 0; i < length; ++i) {
     obj_type = _stream->Read();
     switch (obj_type) {
     case 'c': {
       CodeObject *py_code = ReadCode();
-      list->add(py_code);
+      list.push_back(py_code);
       break;
     }
     case 'i': {
       PyInt *py_int = new PyInt(_stream->ReadInt());
-      list->add(py_int);
+      list.push_back(py_int);
       break;
     }
     case 'g': {
       PyFloat *py_float = new PyFloat(_stream->ReadFloat());
-      list->add(py_float);
+      list.push_back(py_float);
       break;
     }
     case 'N': {
-      list->add(Universe::pyNone);
+      list.push_back(Universe::_py_none);
       break;
     }
     case 't': {
       PyString *str = ReadString();
-      list->add(str);
-      _string_Table.add(str);
+      list.push_back(str);
+      _string_Table.push_back(str);
       break;
     }
     case 's': {
-      list->add(ReadString());
+      PyString *str = ReadString();
+      list.push_back(str);
       break;
     }
     case 'R': {
-      list->add(_string_Table.get(_stream->ReadInt()));
+      list.push_back(_string_Table.at(_stream->ReadInt()));
       break;
     }
     case '(': {
-      list->add(new PyList(ReadTuples()));
+      list.push_back(new PyList(ReadTuples()));
       break;
     }
     default: {

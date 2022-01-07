@@ -5,24 +5,25 @@
 #ifndef PVM_PYDICT_HH
 #define PVM_PYDICT_HH
 #include "object/pyObject.hh"
-#include "utils/map.hh"
+#include <unordered_map>
 
 namespace pvm {
 class DictKlass : public Klass {
 public:
-  static DictKlass *get_instance();
+  static DictKlass *GetInstance();
 
-  size_t size() override;
+  size_t Size() override;
 };
-class PyDict : public PyObject {
+class PyDict : public PyReferenceObject {
 public:
   PyDict();
   ~PyDict();
-  void put(PyObject *k, PyObject *v);
-  PyObject *get(PyObject *k);
+  void Put(PyObject *k, PyObject *v);
+  PyObject *Get(PyObject *k);
+  bool Contains(PyObject *k);
 
 private:
-  Map<PyObject *, PyObject *> _map{};
+  std::unordered_map<PyObject *, PyObject *> _map{};
 };
 } // namespace pvm
 #endif // PVM_PYDICT_HH

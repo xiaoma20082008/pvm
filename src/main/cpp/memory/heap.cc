@@ -115,20 +115,12 @@ void Heap::GC() {
 }
 
 void Heap::MinorGC() {
-  std::cout << "minor_gc starting:\r\n";
-  std::cout << "  before:\r\n";
-  std::cout << "  after:\r\n";
-  std::cout << "minor_gc finished\r\n";
   OopClosure closure{_survivor0, _survivor1, _metaspace};
   closure.CMS();
   _eden->Clear();
 }
 
 void Heap::MajorGC() {
-  std::cout << "major_gc starting:\r\n";
-  std::cout << "  before:\r\n";
-  std::cout << "  after:\r\n";
-  std::cout << "major_gc finished\r\n";
   MinorGC();
 }
 

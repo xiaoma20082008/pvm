@@ -6,7 +6,11 @@
 #define PVM_PYOBJECT_HH
 #include "object/klass.hh"
 namespace pvm {
-class ObjectKlass : public Klass {};
+class ObjectKlass : public Klass {
+public:
+  static ObjectKlass* GetInstance();
+  virtual size_t Size();
+};
 
 class PyObject {
 public:
@@ -36,15 +40,28 @@ public:
   PyObject *next();
   PyObject *iter();
 
-  void set_mark_word(long mark_word);
-  void set_klass(Klass *klass);
-  void set_dict(PyDict *dict);
+  // region Getter/Setter
 
-  int Size();
+  void SetMarkWord(long mark_word);
+  void SetKlass(Klass *klass);
+  void SetDict(PyDict *dict);
 
-  [[nodiscard]] long mark_word() const;
-  [[nodiscard]] Klass *klass() const;
-  [[nodiscard]] PyDict *dict() const;
+  [[nodiscard]] long GetMarkWord() const;
+  [[nodiscard]] Klass *GetKlass() const;
+  [[nodiscard]] PyDict *GetDict() const;
+
+  // endregion Getter/Setter
+
+  // region typeof
+
+  const char *Type();
+
+  // endregion typeof
+  // region sizeof
+
+  size_t Size();
+
+  // endregion sizeof
 
   void Accept(OopClosure *f);
 
@@ -57,10 +74,10 @@ private:
 };
 
 // reference type
-class PyReferObject : public PyObject {};
+class PyReferenceObject : public PyObject {};
 
 // value type
-class PyValueObject : public PyObject {};
+class PyPrimitiveObject : public PyObject {};
 
 } // namespace pvm
 #endif // PVM_PYOBJECT_HH

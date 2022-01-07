@@ -11,7 +11,7 @@ class FloatKlass : public Klass {
 public:
   static FloatKlass *get_instance();
 
-  size_t size() override;
+  size_t Size() override;
 
   PyObject *gt(PyObject *x, PyObject *y) override;
   PyObject *lt(PyObject *x, PyObject *y) override;
@@ -27,7 +27,7 @@ public:
   // PyObject *mod(PyObject *x, PyObject *y) override;
 };
 
-class PyFloat : public PyObject {
+class PyFloat : public PyPrimitiveObject {
 public:
   explicit PyFloat(double value);
   [[nodiscard]] double value() const;

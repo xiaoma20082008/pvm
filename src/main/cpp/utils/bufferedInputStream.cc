@@ -16,13 +16,15 @@ BufferedInputStream::BufferedInputStream(const char *filename) {
 BufferedInputStream::~BufferedInputStream() { Close(); }
 
 char BufferedInputStream::Read() {
+  char ch;
   if (_index < BUFFER_LEN) {
-    return _buffer[_index++];
+    ch = _buffer[_index++];
   } else {
     _index = 0;
     std::fread(_buffer, BUFFER_LEN * sizeof(char), 1, _file);
-    return _buffer[_index++];
+    ch = _buffer[_index++];
   }
+  return ch;
 }
 
 int BufferedInputStream::ReadInt() {
@@ -42,13 +44,15 @@ double BufferedInputStream::ReadFloat() {
 }
 
 char BufferedInputStream::Peek() {
+  char ch;
   if (_index < BUFFER_LEN) {
-    return _buffer[_index];
+    ch = _buffer[_index];
   } else {
     _index = 0;
     std::fread(_buffer, BUFFER_LEN * sizeof(char), 1, _file);
-    return _buffer[_index];
+    ch = _buffer[_index];
   }
+  return ch;
 }
 
 void BufferedInputStream::Undo() { _index--; }
@@ -60,4 +64,5 @@ void BufferedInputStream::Close() {
   }
 }
 
+void BufferedInputStream::Reset() {}
 } // namespace pvm

@@ -4,6 +4,7 @@
 
 #ifndef PVM_GC_HH
 #define PVM_GC_HH
+#include <vector>
 namespace pvm {
 class Klass;
 class PyDict;
@@ -16,6 +17,7 @@ class PyString;
 class Block;
 class Space;
 class Heap;
+class StringTable;
 template <typename T> class ArrayList;
 template <typename K, typename V> class Map;
 
@@ -29,10 +31,11 @@ public:
   virtual void Visit(PyList *obj) = 0;
   virtual void Visit(PyString *obj) = 0;
   virtual void Visit(PyObject *obj) = 0;
-  virtual void Visit(ArrayList<Block *> *obj) = 0;
-  virtual void Visit(ArrayList<PyObject *> *obj) = 0;
-  virtual void Visit(ArrayList<Klass *> *obj) = 0;
+  virtual void Visit(std::vector<Block *> obj) = 0;
+  virtual void Visit(std::vector<PyObject *> obj) = 0;
+  virtual void Visit(std::vector<Klass *> obj) = 0;
   virtual void Visit(Map<PyObject *, PyObject *> *obj) = 0;
+  virtual void Visit(StringTable *obj) = 0;
 };
 
 class OopClosure : public ObjVisitor {
@@ -49,10 +52,11 @@ public:
   virtual void Visit(PyList *obj) override;
   virtual void Visit(PyString *obj) override;
   virtual void Visit(PyObject *obj) override;
-  virtual void Visit(ArrayList<Block *> *obj) override;
-  virtual void Visit(ArrayList<PyObject *> *obj) override;
-  virtual void Visit(ArrayList<Klass *> *obj) override;
+  virtual void Visit(std::vector<Block *> obj) override;
+  virtual void Visit(std::vector<PyObject *> obj) override;
+  virtual void Visit(std::vector<Klass *> obj) override;
   virtual void Visit(Map<PyObject *, PyObject *> *obj) override;
+  virtual void Visit(StringTable *obj) override;
 
   virtual void CMS();
 

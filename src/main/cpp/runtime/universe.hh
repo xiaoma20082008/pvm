@@ -16,11 +16,11 @@ public:
   static void Destroy();
 
 public:
-  static PyObject *pyTrue;
-  static PyObject *pyFalse;
-  static PyObject *pyNone;
-  static Heap *heap;
-  static CodeObject *code;
+  static PyObject *_py_true;
+  static PyObject *_py_false;
+  static PyObject *_py_none;
+  static Heap *_heap;
+  static CodeObject *_main_code;
 };
 } // namespace pvm
 #endif // PVM_UNIVERSE_HH

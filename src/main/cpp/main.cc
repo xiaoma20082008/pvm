@@ -40,6 +40,7 @@
 #include "runtime/interpreter.hh"
 #include "runtime/universe.hh"
 #include "utils/bufferedInputStream.hh"
+#include <iostream>
 
 int main(int argc, char **argv) {
   if (argc <= 1) {
@@ -51,10 +52,13 @@ int main(int argc, char **argv) {
   pvm::BufferedInputStream stream(argv[1]);
   pvm::BinaryFileParser parser(&stream);
 
-  pvm::Universe::code = parser.Parse();
-  pvm::Universe::heap->GC();
+  auto *code = parser.Parse();
+  pvm::Universe::_main_code = code;
+  std::cout << "source code:" << code << std::endl;
+  std::cout << "target code:" << pvm::Universe::_main_code << std::endl;
 
-  pvm::Interpreter::GetInstance()->Run(pvm::Universe::code);
+  pvm::Interpreter::GetInstance()->Run(pvm::Universe::_main_code);
+  pvm::Universe::_heap->GC();
 
   pvm::Universe::Destroy();
   return 0;

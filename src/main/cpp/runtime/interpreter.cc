@@ -7,13 +7,15 @@
 #include "code/byteCode.hh"
 #include "code/codeObject.hh"
 #include "object/pyDict.hh"
+#include "object/pyInt.hh"
 #include "object/pyList.hh"
 #include "object/pyModule.hh"
 #include "object/pyString.hh"
+#include "object/pyType.hh"
 #include "runtime/frameObject.hh"
 #include "runtime/stringTable.hh"
+#include "runtime/universe.hh"
 #include "utils/arrayList.hh"
-
 namespace pvm {
 #define POP() _frame->GetStack()->Pop()
 #define PUSH(x) _frame->GetStack()->Push(x)
@@ -22,7 +24,28 @@ namespace pvm {
 #define ST(x) StringTable::GetInstance()->STR(x)
 #define STR(x) x##_str
 
-Interpreter::Interpreter() = default;
+Interpreter::Interpreter() {
+
+  _builtins = new PyModule();
+  _builtins->Put(new PyString("object"), ObjectKlass::GetInstance()->GetType());
+  _builtins->Put(new PyString("True"), Universe::_py_true);
+  _builtins->Put(new PyString("False"), Universe::_py_false);
+  _builtins->Put(new PyString("None"), Universe::_py_none);
+
+  //  _builtins->Put(new PyString("len"), new FunctionObject(len));
+  //  _builtins->Put(new PyString("iter"), new FunctionObject(iter));
+  //  _builtins->Put(new PyString("type"), new FunctionObject(type_of));
+  //  _builtins->Put(new PyString("isinstance"), new FunctionObject(isinstance));
+  //  _builtins->Put(new PyString("super"), new FunctionObject(builtin_super));
+  //  _builtins->Put(new PyString("sysgc"), new FunctionObject(sysgc));
+
+  _builtins->Put(new PyString("int"), IntKlass::GetInstance()->GetType());
+  _builtins->Put(new PyString("object"), ObjectKlass::GetInstance()->GetType());
+  _builtins->Put(new PyString("str"), StringKlass::GetInstance()->GetType());
+  _builtins->Put(new PyString("list"), ListKlass::GetInstance()->GetType());
+  _builtins->Put(new PyString("dict"), DictKlass::GetInstance()->GetType());
+}
+
 Interpreter::~Interpreter() = default;
 
 Interpreter *Interpreter::GetInstance() {
@@ -30,13 +53,18 @@ Interpreter *Interpreter::GetInstance() {
   return &interpreter;
 }
 
-void Interpreter::Init() {}
+void Interpreter::Init() {
+  _modules = new PyDict();
+  _modules->Put(new PyString("__builtins__"), _builtins);
+}
+
 void Interpreter::Run(CodeObject *codes) {
   _frame = new FrameObject(codes);
-  _frame->GetLocals()->put(ST(name), new PyString("__main__"));
+  _frame->GetLocals()->Put(ST(name), new PyString("__main__"));
   EvalFrame();
   if (_status == Status::IS_EXCEPTION) {
   }
+  DestroyFrame();
 }
 
 void Interpreter::EvalFrame() {

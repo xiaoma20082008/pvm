@@ -43,8 +43,8 @@ private:
   };
 
 private:
-  // PyModule *_builtins{};
-  // PyDict *_modules{};
+  PyModule *_builtins{};
+  PyDict *_modules{};
   FrameObject *_frame{};
   PyObject *_ret_value{};
 

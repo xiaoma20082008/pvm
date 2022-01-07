@@ -25,26 +25,23 @@ Block &Block::operator=(const Block &rhs) {
   return *this;
 }
 
-FrameObject::FrameObject(CodeObject *code) {
-  _consts = code->_consts;
-  _names = code->_names;
+FrameObject::FrameObject(CodeObject *codes) {
+  _consts = codes->_consts;
+  _names = codes->_names;
 
   _locals = new PyDict();
   _globals = _locals;
   _closure = nil;
 
-  _loop_stack = new ArrayList<Block *>();
+  _loop_stack = std::vector<Block *> {};
 
-  _code = code;
+  _code = codes;
   _pc = 0;
   _caller = nil;
   _entry_frame = false;
 }
 
-FrameObject::FrameObject(PyFunc *func, ObjList args, int op_arg) {
-  assert((args != nil && op_arg != 0) || (args == nil && op_arg == 0));
-  _locals = new PyDict();
-}
+FrameObject::FrameObject(PyFunc *func, std::vector<PyObject *> args, int op_arg) { _locals = new PyDict(); }
 
 FrameObject::~FrameObject() = default;
 
@@ -78,9 +75,9 @@ void FrameObject::Accept(OopClosure *f) {
 // region getter/setter
 
 PyList *FrameObject::GetStack() const { return _stack; }
-ArrayList<Block *> *FrameObject::GetLoopStack() const { return _loop_stack; }
-ArrayList<PyObject *> *FrameObject::GetConsts() const { return _consts; }
-ArrayList<PyObject *> *FrameObject::GetNames() const { return _names; }
+std::vector<Block *> FrameObject::GetLoopStack() const { return _loop_stack; }
+std::vector<PyObject *> FrameObject::GetConsts() const { return _consts; }
+std::vector<PyObject *> FrameObject::GetNames() const { return _names; }
 PyDict *FrameObject::GetGlobals() const { return _globals; }
 PyDict *FrameObject::GetLocals() const { return _locals; }
 PyList *FrameObject::GetClosure() const { return _closure; }
@@ -90,9 +87,9 @@ int FrameObject::GetPc() const { return _pc; }
 bool FrameObject::IsEntryFrame() const { return _entry_frame; }
 
 void FrameObject::SetStack(PyList *stack) { _stack = stack; }
-void FrameObject::SetLoopStack(ArrayList<Block *> *loop_stack) { _loop_stack = loop_stack; }
-void FrameObject::SetConsts(ArrayList<PyObject *> *consts) { _consts = consts; }
-void FrameObject::SetNames(ArrayList<PyObject *> *names) { _names = names; }
+void FrameObject::SetLoopStack(std::vector<Block *> loop_stack) { _loop_stack = loop_stack; }
+void FrameObject::SetConsts(std::vector<PyObject *> consts) { _consts = consts; }
+void FrameObject::SetNames(std::vector<PyObject *> names) { _names = names; }
 void FrameObject::SetGlobals(PyDict *globals) { _globals = globals; }
 void FrameObject::SetLocals(PyDict *locals) { _locals = locals; }
 void FrameObject::SetClosure(PyList *closure) { _closure = closure; }

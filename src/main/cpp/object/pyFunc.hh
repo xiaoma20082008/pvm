@@ -11,9 +11,9 @@ class FuncKlass : public Klass {
 public:
   static FuncKlass *get_instance();
 
-  size_t size() override;
+  size_t Size() override;
 };
-class PyFunc : public PyObject {};
+class PyFunc : public PyReferenceObject {};
 
 class NativeFuncKlass : public Klass {
   static NativeFuncKlass *get_instance();
@@ -22,7 +22,7 @@ class NativeFuncKlass : public Klass {
 class MethodKlass : public Klass {
   static MethodKlass *get_instance();
 };
-class PyMethod : public PyObject {};
+class PyMethod : public PyReferenceObject {};
 
 } // namespace pvm
 #endif // PVM_PYFUNC_HH

@@ -28,6 +28,7 @@ public:
 
   void Close();
 
+  void Reset();
 private:
   std::FILE *_file{nullptr};
   const char *_filename{nullptr};

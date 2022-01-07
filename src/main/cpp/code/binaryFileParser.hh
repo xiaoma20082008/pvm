@@ -15,6 +15,7 @@
 #include "runtime/universe.hh"
 #include "utils/arrayList.hh"
 #include "utils/bufferedInputStream.hh"
+#include <vector>
 
 namespace pvm {
 
@@ -24,22 +25,24 @@ public:
 
   CodeObject *Parse();
 
+  void Reset();
+
 private:
   CodeObject *ReadCode();
   PyString *ReadFilename();
   PyString *ReadName();
   PyString *ReadBytecode();
   PyString *ReadString();
-  ArrayList<PyObject *> *ReadConsts();
-  ArrayList<PyObject *> *ReadNames();
-  ArrayList<PyObject *> *ReadVarNames();
-  ArrayList<PyObject *> *ReadCellVars();
-  ArrayList<PyObject *> *ReadFreeVars();
-  ArrayList<PyObject *> *ReadTuples();
+  std::vector<PyObject *> ReadConsts();
+  std::vector<PyObject *> ReadNames();
+  std::vector<PyObject *> ReadVarNames();
+  std::vector<PyObject *> ReadCellVars();
+  std::vector<PyObject *> ReadFreeVars();
+  std::vector<PyObject *> ReadTuples();
 
 private:
   BufferedInputStream *_stream{};
-  ArrayList<PyString *> _string_Table{};
+  std::vector<PyString *> _string_Table{};
 };
 } // namespace pvm
 #endif // PVM_BINARY_FILE_PARSER_HH

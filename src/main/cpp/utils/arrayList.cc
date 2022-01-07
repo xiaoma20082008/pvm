@@ -12,7 +12,7 @@ namespace pvm {
 template <typename T> ArrayList<T>::ArrayList(int capacity) {
   _length = capacity;
   _size = 0;
-  void *tmp = Universe::heap->Allocate(sizeof(T) * capacity);
+  void *tmp = Universe::_heap->Allocate(sizeof(T) * capacity);
   _array = new (tmp) T[capacity];
 }
 template <typename T> void ArrayList<T>::add(T t) {
@@ -47,7 +47,7 @@ template <typename T> T *ArrayList<T>::value() { return _array; }
 template <typename T> T ArrayList<T>::pop() { return _array[_size - 1]; }
 template <typename T> void ArrayList<T>::remove_at(int index) {}
 template <typename T> void ArrayList<T>::oops_do(OopClosure *closure) {}
-template <typename T> void *ArrayList<T>::operator new(size_t size) { return Universe::heap->Allocate(size); }
+template <typename T> void *ArrayList<T>::operator new(size_t size) { return Universe::_heap->Allocate(size); }
 
 template <typename T> void ArrayList<T>::expand() {}
 

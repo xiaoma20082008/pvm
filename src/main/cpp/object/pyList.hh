@@ -8,22 +8,22 @@
 namespace pvm {
 class ListKlass : public Klass {
 public:
-  static ListKlass *get_instance();
+  static ListKlass *GetInstance();
 
-  size_t size() override;
+  size_t Size() override;
 };
-class PyList : public PyObject {
+class PyList : public PyReferenceObject {
 public:
   PyList();
-  PyList(ObjList ol);
+  PyList(std::vector<PyObject *> args);
 
   PyObject *Pop();
   PyObject *Top();
   void Push(PyObject *o);
-  int Size();
+  int size();
 
 private:
-  ArrayList<PyObject *> *_list{};
+  std::vector<PyObject *> _list{};
 };
 } // namespace pvm
 #endif // PVM_PYLIST_HH

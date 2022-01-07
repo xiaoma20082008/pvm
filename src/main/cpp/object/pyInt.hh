@@ -8,7 +8,7 @@
 namespace pvm {
 class IntKlass : public Klass {
 public:
-  static IntKlass *get_instance();
+  static IntKlass *GetInstance();
 
   PyObject *gt(PyObject *x, PyObject *y) override;
   PyObject *lt(PyObject *x, PyObject *y) override;
@@ -23,12 +23,12 @@ public:
   PyObject *div(PyObject *x, PyObject *y) override;
   PyObject *mod(PyObject *x, PyObject *y) override;
 
-  PyObject *allocate_instance(PyObject *callable, ArrayList<PyObject *> *args) override;
-  size_t size() override;
+  PyObject *allocate_instance(PyObject *callable, std::vector<PyObject *> args) override;
+  size_t Size() override;
   void Accept(OopClosure *closure, PyObject *obj) override;
 };
 
-class PyInt : public PyObject {
+class PyInt : public PyPrimitiveObject {
 public:
   explicit PyInt(int value);
   [[nodiscard]] int value() const;

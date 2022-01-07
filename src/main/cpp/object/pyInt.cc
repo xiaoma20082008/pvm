@@ -9,7 +9,7 @@
 #include "runtime/universe.hh"
 namespace pvm {
 
-IntKlass *IntKlass::get_instance() {
+IntKlass *IntKlass::GetInstance() {
   static IntKlass ik{};
   return &ik;
 }
@@ -17,32 +17,32 @@ IntKlass *IntKlass::get_instance() {
 PyObject *IntKlass::ge(PyObject *x, PyObject *y) {
   auto *lhs = (PyInt *)x;
   auto *rhs = (PyInt *)y;
-  return lhs->value() >= rhs->value() ? Universe::pyTrue : Universe::pyFalse;
+  return lhs->value() >= rhs->value() ? Universe::_py_true : Universe::_py_false;
 }
 PyObject *IntKlass::gt(PyObject *x, PyObject *y) {
   auto *lhs = (PyInt *)x;
   auto *rhs = (PyInt *)y;
-  return lhs->value() > rhs->value() ? Universe::pyTrue : Universe::pyFalse;
+  return lhs->value() > rhs->value() ? Universe::_py_true : Universe::_py_false;
 }
 PyObject *IntKlass::le(PyObject *x, PyObject *y) {
   auto *lhs = (PyInt *)x;
   auto *rhs = (PyInt *)y;
-  return lhs->value() <= rhs->value() ? Universe::pyTrue : Universe::pyFalse;
+  return lhs->value() <= rhs->value() ? Universe::_py_true : Universe::_py_false;
 }
 PyObject *IntKlass::lt(PyObject *x, PyObject *y) {
   auto *lhs = (PyInt *)x;
   auto *rhs = (PyInt *)y;
-  return lhs->value() < rhs->value() ? Universe::pyTrue : Universe::pyFalse;
+  return lhs->value() < rhs->value() ? Universe::_py_true : Universe::_py_false;
 }
 PyObject *IntKlass::ne(PyObject *x, PyObject *y) {
   auto *lhs = (PyInt *)x;
   auto *rhs = (PyInt *)y;
-  return lhs->value() != rhs->value() ? Universe::pyTrue : Universe::pyFalse;
+  return lhs->value() != rhs->value() ? Universe::_py_true : Universe::_py_false;
 }
 PyObject *IntKlass::eq(PyObject *x, PyObject *y) {
   auto *lhs = (PyInt *)x;
   auto *rhs = (PyInt *)y;
-  return lhs->value() == rhs->value() ? Universe::pyTrue : Universe::pyFalse;
+  return lhs->value() == rhs->value() ? Universe::_py_true : Universe::_py_false;
 }
 
 PyObject *IntKlass::add(PyObject *x, PyObject *y) {
@@ -71,10 +71,10 @@ PyObject *IntKlass::div(PyObject *x, PyObject *y) {
   return new PyInt(lhs->value() / rhs->value());
 }
 
-PyObject *IntKlass::allocate_instance(PyObject *callable, ArrayList<PyObject *> *args) { return nullptr; }
-size_t IntKlass::size() { return sizeof(PyInt); }
+PyObject *IntKlass::allocate_instance(PyObject *callable, std::vector<PyObject *> args) { return nullptr; }
+size_t IntKlass::Size() { return sizeof(PyInt); }
 void IntKlass::Accept(OopClosure *closure, PyObject *obj) {}
 
-PyInt::PyInt(int value) : _value(value) { set_klass(IntKlass::get_instance()); }
+PyInt::PyInt(int value) : _value(value) { SetKlass(IntKlass::GetInstance()); }
 int PyInt::value() const { return _value; }
 } // namespace pvm

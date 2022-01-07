@@ -8,7 +8,7 @@
 namespace pvm {
 class TypeKlass : public Klass {};
 
-class PyType : public PyObject {
+class PyType : public PyReferenceObject {
 public:
   PyType();
   void set_owner_klass(Klass *klass);

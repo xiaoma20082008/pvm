@@ -4,14 +4,15 @@
 
 #ifndef PVM_FRAME_OBJECT_HH
 #define PVM_FRAME_OBJECT_HH
-#include "utils/arrayList.hh"
 #include "utils/common.hh"
+#include <vector>
 
 namespace pvm {
 class PyDict;
 class PyList;
 class PyFunc;
 class PyString;
+class PyObject;
 class CodeObject;
 class OopClosure;
 
@@ -34,8 +35,8 @@ public:
 
 class FrameObject {
 public:
-  FrameObject(CodeObject *code);
-  FrameObject(PyFunc *func, ObjList args, int op_arg);
+  FrameObject(CodeObject *codes);
+  FrameObject(PyFunc *func, std::vector<PyObject *> args, int op_arg);
   ~FrameObject();
 
   __no_copy__(FrameObject);
@@ -52,9 +53,9 @@ public:
   // region getter/setter
 
   PyList *GetStack() const;
-  ArrayList<Block *> *GetLoopStack() const;
-  ArrayList<PyObject *> *GetConsts() const;
-  ArrayList<PyObject *> *GetNames() const;
+  std::vector<Block *> GetLoopStack() const;
+  std::vector<PyObject *> GetConsts() const;
+  std::vector<PyObject *> GetNames() const;
   PyDict *GetGlobals() const;
   PyDict *GetLocals() const;
   PyList *GetClosure() const;
@@ -64,9 +65,9 @@ public:
   bool IsEntryFrame() const;
 
   void SetStack(PyList *stack);
-  void SetLoopStack(ArrayList<Block *> *loop_stack);
-  void SetConsts(ArrayList<PyObject *> *consts);
-  void SetNames(ArrayList<PyObject *> *names);
+  void SetLoopStack(std::vector<Block *> loop_stack);
+  void SetConsts(std::vector<PyObject *> consts);
+  void SetNames(std::vector<PyObject *> names);
   void SetGlobals(PyDict *globals);
   void SetLocals(PyDict *locals);
   void SetClosure(PyList *closure);
@@ -81,10 +82,10 @@ public:
 
 private:
   PyList *_stack{nil};
-  ArrayList<Block *> *_loop_stack{nil};
+  std::vector<Block *> _loop_stack{};
 
-  ArrayList<PyObject *> *_consts{nil};
-  ArrayList<PyObject *> *_names{nil};
+  std::vector<PyObject *> _consts{};
+  std::vector<PyObject *> _names{};
 
   PyDict *_globals{nil};
   PyDict *_locals{nil};

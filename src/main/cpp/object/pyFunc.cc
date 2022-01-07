@@ -10,7 +10,7 @@ FuncKlass *FuncKlass::get_instance() {
   return &klass;
 }
 
-size_t FuncKlass::size() { return sizeof(PyFunc); }
+size_t FuncKlass::Size() { return sizeof(PyFunc); }
 
 NativeFuncKlass *NativeFuncKlass::get_instance() {
   static NativeFuncKlass klass{};
