@@ -68,9 +68,14 @@ void Interpreter::Run(CodeObject *codes) {
 }
 
 void Interpreter::EvalFrame() {
-  PyObject *x, *y, *z;
+  PyObject *x{nullptr}, *y{nullptr}, *z{nullptr};
   while (_frame->HasNext()) {
     auto code = _frame->GetOpCode();
+    bool has_args = (code & 0xFF) >= ByteCode::HAVE_ARGUMENT;
+    int op_args = -1;
+    if (has_args) {
+      op_args = _frame->GetOpArgs();
+    }
     switch (code) {
     case ByteCode::POP_TOP: {
       POP();
@@ -110,6 +115,23 @@ void Interpreter::EvalFrame() {
       PUSH(x);
       PUSH(y);
       PUSH(z);
+      break;
+    }
+    case ByteCode::BUILD_TUPLE: {
+      break;
+    }
+    case ByteCode::BUILD_LIST: {
+      break;
+    }
+    case ByteCode::BUILD_SET: {
+      break;
+    }
+    case ByteCode::BUILD_MAP: {
+      x = new PyDict();
+      PUSH(x);
+      break;
+    }
+    default: {
       break;
     }
     }

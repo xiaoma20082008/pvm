@@ -14,8 +14,12 @@ size_t ListKlass::Size() { return sizeof(PyList); }
 
 PyList::PyList() {}
 PyList::PyList(std::vector<PyObject *> args) : _list(args) {}
-PyObject *PyList::Pop() { return nil; }
-PyObject *PyList::Top() { return nil; }
-void PyList::Push(PyObject *o) {}
+PyObject *PyList::Pop() {
+  PyObject *x = _list.back();
+  _list.pop_back();
+  return x;
+}
+PyObject *PyList::Top() { return _list.back(); }
+void PyList::Push(PyObject *o) { _list.push_back(o); }
 int PyList::size() { return _list.size(); }
 } // namespace pvm

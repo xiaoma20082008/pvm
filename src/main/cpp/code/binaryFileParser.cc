@@ -6,6 +6,7 @@
 
 #include <cassert>
 #include <cstdio>
+#include <iostream>
 
 namespace pvm {
 
@@ -92,11 +93,13 @@ PyString *BinaryFileParser::ReadBytecode() {
 }
 PyString *BinaryFileParser::ReadString() {
   auto len = _stream->ReadInt();
-  char val[len];
+  char *tmp = new char[len];
   for (int i = 0; i < len; ++i) {
-    val[i] = _stream->Read();
+    tmp[i] = _stream->Read();
   }
-  return new PyString(val, len);
+  PyString *str = new PyString(tmp, len);
+  delete[] tmp;
+  return str;
 }
 
 std::vector<PyObject *> BinaryFileParser::ReadNames() {

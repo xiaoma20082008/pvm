@@ -45,6 +45,7 @@ public:
 public:
   bool HasNext();
   unsigned char GetOpCode();
+  int GetOpArgs();
 
   PyString *GetFileName() const;
   PyString *GetFuncName() const;

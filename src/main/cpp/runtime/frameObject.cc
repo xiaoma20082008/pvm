@@ -33,7 +33,8 @@ FrameObject::FrameObject(CodeObject *codes) {
   _globals = _locals;
   _closure = nil;
 
-  _loop_stack = std::vector<Block *> {};
+  _stack = new PyList();
+  _loop_stack = std::vector<Block *>{};
 
   _code = codes;
   _pc = 0;
@@ -47,6 +48,11 @@ FrameObject::~FrameObject() = default;
 
 bool FrameObject::HasNext() { return _pc < _code->_opcodes->Length(); }
 unsigned char FrameObject::GetOpCode() { return _code->_opcodes->Value()[_pc++]; }
+int FrameObject::GetOpArgs() {
+  int byte1 = _code->_opcodes->Value()[_pc++] & 0xff;
+  int byte2 = _code->_opcodes->Value()[_pc++] & 0xff;
+  return byte2 << 8 | byte1;
+}
 PyString *FrameObject::GetFileName() const { return _code->_filename; }
 PyString *FrameObject::GetFuncName() const { return _code->_name; }
 int FrameObject::GetLineno() {
